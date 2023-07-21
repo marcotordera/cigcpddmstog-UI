@@ -22,7 +22,7 @@ const LoginScreen = () => {
       // For this example, let's assume login is successful if the email and password are "admin"
       if (email === 'admin' && password === 'admin') {
         setError(''); // Clear any previous error messages
-        navigation.navigate('Home'); // Redirect to HomeScreen
+        navigation.navigate('NemesisSelection'); // Redirect to HomeScreen
       } else {
         setError('Invalid credentials');
       }
@@ -36,11 +36,12 @@ const LoginScreen = () => {
       </View>
       <View style={styles.loginContainer}>
         <TextInput
-          label="Email"
+          label="Email"prett
           value={email}
           onChangeText={text => setEmail(text)}
           mode="outlined"
           style={styles.input}
+					autoCapitalize="none"
         />
         <TextInput
           label="Password"
@@ -49,6 +50,7 @@ const LoginScreen = () => {
           secureTextEntry
           mode="outlined"
           style={styles.input}
+					autoCapitalize="none"
         />
         {error ? <HelperText type="error">{error}</HelperText> : null}
         <Button mode="contained" onPress={handleLogin} style={styles.button}>

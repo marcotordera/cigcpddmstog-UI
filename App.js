@@ -5,9 +5,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Root from "./components/Root";
 import { Provider as PaperProvider } from "react-native-paper";
 import LoginScreen from "./components/LoginScreen";
-import HomeScreen from "./components/NemesisSelectionScreen";
+import NemesisSelectionScreen from "./components/NemesisSelectionScreen";
 
 const Stack = createStackNavigator();
+
+const initialRouteName = "NemesisSelection";
 
 export default function App() {
 	return (
@@ -15,11 +17,14 @@ export default function App() {
 			<GlobalContextProvider>
 				<NavigationContainer>
 					<Stack.Navigator
-						initialRouteName="Login"
+						initialRouteName={initialRouteName}
 						screenOptions={{ headerShown: false }}
 					>
 						<Stack.Screen name="Login" component={LoginScreen} />
-						<Stack.Screen name="Home" component={HomeScreen} />
+						<Stack.Screen
+							name="NemesisSelection"
+							component={NemesisSelectionScreen}
+						/>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</GlobalContextProvider>
