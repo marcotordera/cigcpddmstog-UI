@@ -5,7 +5,8 @@ import GlobalContext from "../GlobalContext";
 import * as Location from "expo-location";
 
 export default function AppMap() {
-	const { userLocation, setUserLocation } = useContext(GlobalContext);
+	const { userLocation, setUserLocation,nemesisLocation, setNemesisLocation } = useContext(GlobalContext);
+
 
 	useEffect(() => {
 		const MapInit = async () => {
@@ -27,9 +28,57 @@ export default function AppMap() {
 		MapInit();
 	}, []);
 
-	useEffect(() => {
-		console.log(userLocation);
-	}, [userLocation]);
+
+  const localUserLocationHistory=[]
+
+  let nemesisPosition=0;
+  const startNemesis = () =>{
+    console.log("nemesis has started!")
+    setInterval(nemesisStep, 3000);
+  }
+
+  const nemesisStep = () =>{
+    console.log("nemesis is getting closer")
+    nemesisPosition++;
+    if(nemesisPosition === localUserLocationHistory.length)
+    {
+      console.log("CAUGHT")
+    }
+
+  }
+  const updateLocations = async() =>{
+    let location = await Location.getCurrentPositionAsync({});
+    // console.log(location);
+    localUserLocationHistory.push(userLocation)
+    // const updatedLocationHistory = [...userLocationHistory, userLocation];
+    //   setUserLocationHistory(updatedLocationHistory)
+      setUserLocation((prev) => ({
+        ...prev,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      }));
+
+    // console.log(localUserLocationHistory.length)
+  }
+
+  useEffect(() => {
+		const PolInit = async () => {
+			try {
+        setInterval(updateLocations, 3000);
+        setTimeout(startNemesis, 10000);
+
+				console.log("///poll init success///");
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		PolInit();
+	}, []);
+  
+
+	// useEffect(() => {
+	// 	console.log(userLocation);
+	// }, [userLocation]);
 
 	return (
 		<View style={styles.container}>
