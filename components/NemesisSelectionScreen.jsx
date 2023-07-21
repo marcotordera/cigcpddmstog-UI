@@ -5,15 +5,11 @@ import { View, Text, StyleSheet } from "react-native";
 import { Button, SegmentedButtons, Title } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 import GlobalContext from "../GlobalContext";
-import { nemesisList } from "./constants";
+import { difficultyList, nemesisList } from "./constants";
 
 const NemesisSelectionScreen = () => {
-	const { userEmail } = useContext(GlobalContext);
-
-	const [selectedNemesis, setSelectedNemesis] = useState(""); // To store the selected nemesis type
-	const [selectedDifficulty, setSelectedDifficulty] = useState(""); // To store the selected difficulty level
-
-	const difficultyOptions = ["Easy", "Medium", "Hard"]; // Difficulty level options
+	const { userEmail, setSelectedNemesis, setSelectedDifficulty } =
+		useContext(GlobalContext);
 
 	const handleNemesisChange = (itemValue) => {
 		console.log(itemValue);
@@ -38,12 +34,8 @@ const NemesisSelectionScreen = () => {
 					style={styles.picker}
 					onValueChange={handleNemesisChange}
 				>
-					{nemesisList.map(({ id, title, description }) => (
-						<Picker.Item
-							key={id}
-							label={title}
-							value={`${title}: ${description}`}
-						/>
+					{nemesisList.map(({ id, title }) => (
+						<Picker.Item key={id} label={title} value={id} />
 					))}
 				</Picker>
 
@@ -53,9 +45,9 @@ const NemesisSelectionScreen = () => {
 				<SegmentedButtons
 					value={selectedDifficulty}
 					onValueChange={handleDifficultyChange}
-					buttons={difficultyOptions.map((difficulty) => ({
-						value: difficulty,
-						label: difficulty,
+					buttons={difficultyList.map(({ id, title }) => ({
+						value: id,
+						label: title,
 					}))}
 				/>
 			</View>

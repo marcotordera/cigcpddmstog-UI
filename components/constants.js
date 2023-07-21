@@ -60,3 +60,9 @@ export const nemesisList = [
 			"An elusive and dark entity that lurks in the shadows, moving with supernatural speed to pursue those who catch its attention.",
 	},
 ];
+
+export const difficultyList = [
+	{ id: 1, title: "Easy", offsetSeconds: 60 * 5, speed: 10 },
+	{ id: 2, title: "Medium", offsetSeconds: 60 * 3, speed: 20 },
+	{ id: 3, title: "Hard", offsetSeconds: 60 * 1, speed: 30 },
+];
