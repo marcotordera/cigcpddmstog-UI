@@ -1,7 +1,7 @@
 // DestinationPicker.js
 
 
-import React, { useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button, Dropdown, SegmentedButtons, Title } from "react-native-paper";
 import { supabase } from "../lib/supabase";
@@ -13,31 +13,34 @@ const DestinationPicker = (prompt, difficulty) => {
 	const [imageURL, setImageURL] = useState("");
   	const [isLoading, setIsLoading] = useState(false);
 	const { userEmail } = useContext(GlobalContext);
-
-	const generateImage = async () => {
-		if (!prompt) return alert("Select nemesis!");
-		
-		setIsLoading(true);
-		try {
-		const { data, error } = await supabase.functions.invoke(openai, {
-				body: {query: selectedNemesis},
-		});
-			  
-		  setImageURL(data.data[0].url);
-		  setIsLoading(false);
-		} catch (error) {
-		  setIsLoading(false);
-		  alert.log(error.message);
-		}
-		
-	};
-
+	useEffect(() => {
+		const generateImage = async () => {
+			if (!prompt) return alert("Select nemesis!");
+			
+			setIsLoading(true);
+			try {
+			const { data, error } = await supabase.functions.invoke(openai, {
+					body: {query: selectedNemesis},
+			});
+				  
+			  setImageURL(data.data[0].url);
+			  setIsLoading(false);
+			} catch (error) {
+			  setIsLoading(false);
+			}
+			
+		};	
+		generateImage();
+		console.log()
+	  }, []);
+	
 	return (
 		<View style={styles.container}>
 			<Title style={styles.username}>Hello, {userEmail}</Title>
 			<View style={styles.separator} />
 			<Title style={styles.title}>Your Nemesis!</Title>
-            <Image source={imageURL}/>
+			{isLoading && <Image source={imageURL}/> }
+            
 			
 		</View>
 	);
