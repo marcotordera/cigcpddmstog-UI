@@ -1,18 +1,21 @@
 import React, { useEffect, useContext } from "react";
-import MapView from 'react-native-maps';
-import { StyleSheet, View,Text, Dimensions } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import GlobalContext from "../GlobalContext";
 import * as Location from 'expo-location';
 
 
 export default function AppMap() {
+  const contextValue = useContext(GlobalContext);
   useEffect(() => {
     const MapInit = async () => {
       try{
-        let { status } = await Location.requestForegroundPermissionsAsync();
+        await Location.requestForegroundPermissionsAsync();
         let location = await Location.getCurrentPositionAsync({});
+        // console.log(location);
+        contextValue.setUserLocation(location);
 
-        console.log(location)
+        console.log(contextValue.userLocation);
         console.log("///map init success///");
       }
       catch(error){
@@ -22,16 +25,18 @@ export default function AppMap() {
     };
     MapInit();
   }, []);
-  const contextValue = useContext(GlobalContext);
   return (
     <View style={styles.container}>
       <MapView style={styles.map}
+      showsUserLocation={true}
       initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: contextValue.latitude,
+        longitude: contextValue.longitude,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
-      }}/>
+      }}>
+       
+      </MapView>
     </View>
   );
 }
