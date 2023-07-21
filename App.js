@@ -1,20 +1,19 @@
-import { GlobalContextProvider } from "./GlobalContext";
-import Login from "./components/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Root from "./components/Root";
+import { LogBox } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
+import { GlobalContextProvider } from "./GlobalContext";
+import AppMap from "./components/AppMap";
+import DestinationPicker from "./components/DestinationPicker";
 import LoginScreen from "./components/LoginScreen";
 import NemesisSelectionScreen from "./components/NemesisSelectionScreen";
-import AppMap from "./components/AppMap";
-import { LogBox } from "react-native";
 
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createStackNavigator();
 
-const initialRouteName = "Map";
+const initialRouteName = "NemesisSelectionScreen";
 
 export default function App() {
 	return (
@@ -25,12 +24,16 @@ export default function App() {
 						initialRouteName={initialRouteName}
 						screenOptions={{ headerShown: false }}
 					>
-						<Stack.Screen name="Login" component={LoginScreen} />
+						{/* <Stack.Screen name="Login" component={LoginScreen} /> */}
 						<Stack.Screen
 							name="NemesisSelection"
 							component={NemesisSelectionScreen}
 						/>
 						<Stack.Screen name="Map" component={AppMap} />
+						<Stack.Screen
+							name="DestinationPicker"
+							component={DestinationPicker}
+						/>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</GlobalContextProvider>

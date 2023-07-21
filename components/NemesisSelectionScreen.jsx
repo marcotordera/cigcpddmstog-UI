@@ -6,10 +6,20 @@ import { Button, SegmentedButtons, Title } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 import GlobalContext from "../GlobalContext";
 import { difficultyList, nemesisList } from "./constants";
+import { useNavigation } from "@react-navigation/native";
+import { supabase } from "../lib/supabase";
 
 const NemesisSelectionScreen = () => {
-	const { userEmail, setSelectedNemesis, setSelectedDifficulty } =
-		useContext(GlobalContext);
+	const [isLoading, setIsLoading] = useState(false);
+	const navigation = useNavigation();
+	const {
+		userEmail,
+		selectedNemesis,
+		setSelectedNemesis,
+		selectedDifficulty,
+		setSelectedDifficulty,
+		setNemesisUrl,
+	} = useContext(GlobalContext);
 
 	const handleNemesisChange = (itemValue) => {
 		console.log(itemValue);
@@ -17,7 +27,6 @@ const NemesisSelectionScreen = () => {
 	};
 
 	const handleDifficultyChange = (itemValue) => {
-		console.log(itemValue);
 		setSelectedDifficulty(itemValue);
 	};
 
@@ -52,7 +61,39 @@ const NemesisSelectionScreen = () => {
 				/>
 			</View>
 			{/* Add any other content for the Nemesis Selection Screen */}
-			<Button mode="contained" onPress={() => console.log("Submit")}>
+			<Button
+				mode="contained"
+				disabled={isLoading}
+				onPress={async () => {
+					console.log("nemesisId:" + selectedNemesis);
+
+					const nemesisObj =
+						nemesisList.find(({ id }) => id === selectedNemesis) ?? {};
+					const nemesisString = `${nemesisObj.title}: ${nemesisObj.description}`;
+
+					console.log("nemesisString:" + nemesisString);
+
+					const generateImage = async () => {
+						try {
+							setIsLoading(true);
+							const { data, error } = await supabase.functions.invoke(
+								"openai",
+								{
+									body: { query: nemesisString },
+								}
+							);
+
+							console.log(data);
+							setNemesisUrl(data.data[0].url);
+						} catch (error) {}
+						setIsLoading(false);
+					};
+
+					await generateImage();
+
+					navigation.navigate("DestinationPicker");
+				}}
+			>
 				Submit
 			</Button>
 		</View>

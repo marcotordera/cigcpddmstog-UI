@@ -1,12 +1,16 @@
 import React, { createContext, useState } from "react";
+import { difficultyList, nemesisList } from "./components/constants";
 
 const GlobalContext = createContext();
 
 export const GlobalContextProvider = ({ children }) => {
 	const [userEmail, setUserEmail] = useState(null);
 
-	const [selectedNemesis, setSelectedNemesis] = useState(""); // To store the selected nemesis type
-	const [selectedDifficulty, setSelectedDifficulty] = useState(""); // To store the selected difficulty level
+	const [selectedNemesis, setSelectedNemesis] = useState(nemesisList[0].id); // To store the selected nemesis type
+	const [selectedDifficulty, setSelectedDifficulty] = useState(
+		difficultyList[0].id
+	); // To store the selected difficulty level
+	const [nemesisUrl, setNemesisUrl] = useState("");
 
 	const [testString2, setTestString2] = useState("Test2");
 	const [testObj, setTestObj] = useState({
@@ -55,6 +59,8 @@ export const GlobalContextProvider = ({ children }) => {
 		setNemesisLocation,
 		targetDestination,
 		setTargetDestination,
+		nemesisUrl,
+		setNemesisUrl,
 	};
 	return (
 		<GlobalContext.Provider value={store}>{children}</GlobalContext.Provider>
