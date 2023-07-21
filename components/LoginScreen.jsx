@@ -13,19 +13,22 @@ const LoginScreen = () => {
 	const [error, setError] = useState("");
 	const [isSignUp, setIsSignUp] = useState(false); // To track if the user is in sign-up mode
 
-	const handleLogin = () => {
-		// Perform your login logic here
-		// For simplicity, we'll just check if email and password are not empty
-		if (email === "" || password === "") {
-			setError("Please fill in all fields");
+	const handleAction = () => {
+		if (isSignUp) {
 		} else {
-			// Perform login action here (e.g., call an API, authenticate user)
-			// For this example, let's assume login is successful if the email and password are "admin"
-			if (email === "admin" && password === "admin") {
-				setError(""); // Clear any previous error messages
-				navigation.navigate("NemesisSelection"); // Redirect to HomeScreen
+			// Perform your login logic here
+			// For simplicity, we'll just check if email and password are not empty
+			if (email === "" || password === "") {
+				setError("Please fill in all fields");
 			} else {
-				setError("Invalid credentials");
+				// Perform login action here (e.g., call an API, authenticate user)
+				// For this example, let's assume login is successful if the email and password are "admin"
+				if (email === "admin" && password === "admin") {
+					setError(""); // Clear any previous error messages
+					navigation.navigate("NemesisSelection"); // Redirect to HomeScreen
+				} else {
+					setError("Invalid credentials");
+				}
 			}
 		}
 	};
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 52, // Larger title font size
-		lineHeight: "auto",
+		lineHeight: "normal",
 		fontWeight: "bold",
 		textAlign: "center",
 	},
