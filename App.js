@@ -5,10 +5,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Root from "./components/Root";
 import { Provider as PaperProvider } from "react-native-paper";
 import LoginScreen from "./components/LoginScreen";
-import HomeScreen from "./components/NemesisSelectionScreen";
+import NemesisSelectionScreen from "./components/NemesisSelectionScreen";
 import AppMap from "./components/AppMap";
 
 const Stack = createStackNavigator();
+
+const initialRouteName = "NemesisSelection";
 
 export default function App() {
   return (
