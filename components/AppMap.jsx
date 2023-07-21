@@ -1,13 +1,21 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, View, Dimensions } from "react-native";
 import GlobalContext from "../GlobalContext";
 import * as Location from "expo-location";
 import NemesisContainer from "./NemesisContainer";
+import { difficultyList } from "./constants";
 
 export default function AppMap() {
-	const { userLocation, setUserLocation,nemesisLocation, setNemesisLocation } = useContext(GlobalContext);
-
+	const {
+		userLocation,
+		setUserLocation,
+		nemesisLocation,
+		setNemesisLocation,
+		isRunStarted,
+		selectedDifficulty,
+		headstartCount,
+	} = useContext(GlobalContext);
 
 	useEffect(() => {
 		const MapInit = async () => {
@@ -29,72 +37,60 @@ export default function AppMap() {
 		MapInit();
 	}, []);
 
+	const [localUserLocationHistory, setLocalUserLocationHistory] = useState([]);
+	const [nemesisPositionIndex, setNemesisPositionIndex] = useState(0);
 
-  const localUserLocationHistory=[]
+	const updateNemesis = () => {
+		const speed = difficultyList.find(({ id }) => id === selectedDifficulty);
+		console.log(nemesisPositionIndex, localUserLocationHistory.length);
+		try {
+			setNemesisPositionIndex((prev) => prev + speed.speed);
 
-  let nemesisPosition=0;
-  const startNemesis = () =>{
-    console.log("nemesis has started!")
-    setInterval(nemesisStep, 3000);
-  }
+			const newNemesisLocation =
+				localUserLocationHistory[Math.floor(nemesisPositionIndex / 100)];
+			setNemesisLocation(newNemesisLocation);
+			// setNemesisLocation(localUserLocationHistory[nemesisPosition])
 
+			const { coords: { latitude = 0, longitude = 0 } = {} } =
+				newNemesisLocation;
+			console.log(
+				Math.abs(userLocation.latitude - latitude) +
+					Math.abs(userLocation.longitude - longitude)
+			);
 
-  let localNemesisLocation = {
-    latitude: 37.78825,
-    latitudeDelta: 0.0922,    longitude: -122.4324,
-  };
-  const nemesisStep = () =>{
-    if(nemesisPosition < localUserLocationHistory.length)
-    {
-      console.log("nemesis is getting closer")
-      nemesisPosition++;
-  
-      localNemesisLocation=localUserLocationHistory[nemesisPosition]
-      // setNemesisLocation(localUserLocationHistory[nemesisPosition])
-  
-      // console.log(localUserLocationHistory[nemesisPosition]);
-      console.log(nemesisLocation.latitude);
-      console.log(nemesisLocation.longitude);
-
-      if(nemesisPosition === localUserLocationHistory.length)
-      {
-        console.log("CAUGHT")
-      }
-    }
-  }
-  const updateLocations = async() =>{
-    let location = await Location.getCurrentPositionAsync({});
-    // console.log(location);
-    localUserLocationHistory.push(userLocation)
-    // const updatedLocationHistory = [...userLocationHistory, userLocation];
-    //   setUserLocationHistory(updatedLocationHistory)
-      setUserLocation((prev) => ({
-        ...prev,
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      }));
-
-    // console.log(localUserLocationHistory.length)
-  }
-
-  useEffect(() => {
-		const PolInit = async () => {
-			try {
-        setInterval(updateLocations, 1000);
-        setTimeout(startNemesis, 10000);
-
-				console.log("///poll init success///");
-			} catch (error) {
-				console.error(error);
+			if (
+				Math.abs(userLocation.latitude - latitude) +
+					Math.abs(userLocation.longitude - longitude) <
+				0.005
+			) {
+				setIsCaught(true);
 			}
-		};
-		PolInit();
-	}, []);
-  
+		} catch (error) {}
+	};
 
-	// useEffect(() => {
-	// 	console.log(userLocation);
-	// }, [userLocation]);
+	const updateLocations = async () => {
+		let location = await Location.getCurrentPositionAsync({});
+		setLocalUserLocationHistory((prev) => [...prev, location]);
+		setUserLocation((prev) => ({
+			...prev,
+			latitude: location.coords.latitude,
+			longitude: location.coords.longitude,
+		}));
+	};
+
+	useEffect(() => {
+		const user = setTimeout(updateLocations, 1000);
+		let nemesis;
+
+		if (isRunStarted && headstartCount <= 0) {
+			nemesis = setTimeout(updateNemesis, 1000);
+		}
+
+		return () => {
+			clearTimeout(nemesis);
+			clearTimeout(user);
+		};
+	}, [isRunStarted, userLocation]);
 
 	return (
 		<View style={styles.container}>
@@ -105,12 +101,17 @@ export default function AppMap() {
 				region={userLocation}
 				onRegionChangeComplete={(region) => setUserLocation(region)}
 			>
-        <Marker coordinate={{
-          latitude: localNemesisLocation.latitude, // Example latitude
-          longitude: localNemesisLocation.longitude, // Example longitude
-        }} title="Nemesis!" description="Nemesis!" />
-
-      </MapView>
+				{isRunStarted && (
+					<Marker
+						coordinate={{
+							latitude: nemesisLocation?.coords.latitude, // Example latitude
+							longitude: nemesisLocation?.coords.longitude, // Example longitude
+						}}
+						title="Nemesis!"
+						description="Nemesis!"
+					/>
+				)}
+			</MapView>
 		</View>
 	);
 }

@@ -23,7 +23,6 @@ const NemesisSelectionScreen = () => {
 	} = useContext(GlobalContext);
 
 	const handleNemesisChange = (itemValue) => {
-		console.log(itemValue);
 		setSelectedNemesis(itemValue);
 	};
 
@@ -66,13 +65,9 @@ const NemesisSelectionScreen = () => {
 				mode="contained"
 				disabled={isLoading}
 				onPress={async () => {
-					console.log("nemesisId:" + selectedNemesis);
-
 					const nemesisObj =
 						nemesisList.find(({ id }) => id === selectedNemesis) ?? {};
 					const nemesisString = `${nemesisObj.title}: ${nemesisObj.description}`;
-
-					console.log("nemesisString:" + nemesisString);
 
 					const generateImage = async () => {
 						try {
@@ -84,7 +79,6 @@ const NemesisSelectionScreen = () => {
 								}
 							);
 
-							console.log(data);
 							setNemesisUrl(data.data[0].url);
 						} catch (error) {}
 						setIsLoading(false);
@@ -95,7 +89,7 @@ const NemesisSelectionScreen = () => {
 					navigation.navigate("DestinationPicker");
 				}}
 			>
-				Submit
+				{isLoading ? "Loading..." : "Submit"}
 			</Button>
 		</View>
 	);

@@ -13,30 +13,30 @@ LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createStackNavigator();
 
-const initialRouteName = "Map";
+const initialRouteName = "NemesisSelectionScreen";
 
 export default function App() {
-  return (
-    <PaperProvider>
-      <GlobalContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName={initialRouteName}
-            screenOptions={{ headerShown: false }}
-          >
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen
-              name="NemesisSelection"
-              component={NemesisSelectionScreen}
-            />
-            <Stack.Screen name="Map" component={AppMap} />
-            <Stack.Screen
-              name="DestinationPicker"
-              component={DestinationPicker}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </GlobalContextProvider>
-    </PaperProvider>
-  );
+	return (
+		<PaperProvider>
+			<GlobalContextProvider>
+				<NavigationContainer>
+					<Stack.Navigator
+						initialRouteName={initialRouteName}
+						screenOptions={{ headerShown: false }}
+					>
+						<Stack.Screen name="Login" component={LoginScreen} />
+						<Stack.Screen
+							name="NemesisSelection"
+							component={NemesisSelectionScreen}
+						/>
+						<Stack.Screen name="Map" component={AppMap} />
+						<Stack.Screen
+							name="DestinationPicker"
+							component={DestinationPicker}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+			</GlobalContextProvider>
+		</PaperProvider>
+	);
 }

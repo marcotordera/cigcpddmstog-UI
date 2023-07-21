@@ -36,8 +36,14 @@ const DestinationPicker = () => {
 		<View style={styles.container}>
 			<Title style={styles.username}>Hello, {userEmail}</Title>
 			<View style={styles.separator} />
-			<Title style={styles.title}>Your Nemesis</Title>
-			<Image source={{ uri: nemesisUrl }} style={{ width: 400, height: 400 }} />
+			<Title style={styles.title}>Meet Your Nemesis</Title>
+			{nemesisUrl && (
+				<Image
+					source={{ uri: nemesisUrl }}
+					style={{ width: 400, height: 400 }}
+				/>
+			)}
+			<View style={styles.separator} />
 			<Button mode="contained" onPress={handleStartRun}>
 				Start Run
 			</Button>

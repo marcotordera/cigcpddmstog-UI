@@ -11,6 +11,7 @@ const NemesisContainer = () => {
 		setIsRunStarted,
 		isRunStarted,
 		selectedDifficulty,
+		isCaught,
 	} = useContext(GlobalContext);
 
 	useEffect(() => {
@@ -37,13 +38,20 @@ const NemesisContainer = () => {
 	return (
 		<View style={styles.container}>
 			{isRunStarted ? (
-				<Chip style={styles.chip} textStyle={styles.text}>
-					{headstartCount} seconds until your nemesis begins
-				</Chip>
+				headstartCount > 0 && (
+					<Chip style={styles.chip} textStyle={styles.text}>
+						{headstartCount} seconds until your nemesis begins
+					</Chip>
+				)
 			) : (
 				<Button style={styles.button} mode="contained" onPress={handleStartRun}>
 					Start Run
 				</Button>
+			)}
+			{isCaught && (
+				<Chip style={styles.chip} textStyle={styles.text}>
+					You've been caught!
+				</Chip>
 			)}
 		</View>
 	);

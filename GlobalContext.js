@@ -22,24 +22,31 @@ export const GlobalContextProvider = ({ children }) => {
 	]);
 
 	/////////////////////////App Map stuff///////////////
+
+	const [userLocationHistory, setUserLocationHistory] = useState();
+
+	const [targetDestination, setTargetDestination] = useState();
+	const [headstartCount, setHeadstartCount] = useState(null);
+	const [isRunStarted, setIsRunStarted] = useState(false);
 	const [userLocation, setUserLocation] = useState({
 		latitude: 37.78825,
 		longitude: -122.4324,
-		latitudeDelta: 0.0922,
-		longitudeDelta: 0.0421,
+		latitudeDelta: 0.0522,
+		longitudeDelta: 0.0221,
 	});
-	const [userLocationHistory, setUserLocationHistory] = useState([]);
+
 	const [nemesisLocation, setNemesisLocation] = useState({
-		latitude: 37.78825,
-		latitudeDelta: 0.0922,
-		longitude: -122.4324,
-		longitudeDelta: 0.0421,
+		coords: {
+			latitude: 37.78825,
+			longitude: -122.4324,
+			latitudeDelta: 0.0522,
+			longitudeDelta: 0.0221,
+		},
 	});
-	const [targetDestination, setTargetDestination] = useState();
 
 	/////////////////////////////////////////////////////
 
-	const [testResponse, setTestResponse] = useState([]);
+	const [isCaught, setIsCaught] = useState(false);
 
 	const store = {
 		userEmail,
@@ -54,8 +61,36 @@ export const GlobalContextProvider = ({ children }) => {
 		setTestObj,
 		testObjArray,
 		setTestObjArray,
-		testResponse,
-		setTestResponse,
+		isCaught,
+		setIsCaught,
+		userLocation,
+		setUserLocation,
+		userLocationHistory,
+		setUserLocationHistory,
+		nemesisLocation,
+		setNemesisLocation,
+		targetDestination,
+		setTargetDestination,
+		nemesisUrl,
+		setNemesisUrl,
+		headstartCount,
+		setHeadstartCount,
+		isRunStarted,
+		setIsRunStarted,
+		userEmail,
+		setUserEmail,
+		selectedNemesis,
+		setSelectedNemesis,
+		selectedDifficulty,
+		setSelectedDifficulty,
+		testString2,
+		setTestString2,
+		testObj,
+		setTestObj,
+		testObjArray,
+		setTestObjArray,
+		isCaught,
+		setIsCaught,
 		userLocation,
 		setUserLocation,
 		userLocationHistory,
