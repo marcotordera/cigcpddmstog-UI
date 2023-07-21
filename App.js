@@ -13,7 +13,7 @@ LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createStackNavigator();
 
-const initialRouteName = "NemesisSelectionScreen";
+const initialRouteName = "Login";
 
 export default function App() {
 	return (
@@ -24,7 +24,7 @@ export default function App() {
 						initialRouteName={initialRouteName}
 						screenOptions={{ headerShown: false }}
 					>
-						{/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+						<Stack.Screen name="Login" component={LoginScreen} />
 						<Stack.Screen
 							name="NemesisSelection"
 							component={NemesisSelectionScreen}
