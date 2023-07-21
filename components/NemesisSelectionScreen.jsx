@@ -1,19 +1,29 @@
 // NemesisSelectionScreen.js
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button, Dropdown, SegmentedButtons, Title } from "react-native-paper";
 import supabase from lib;
 import { Picker } from "@react-native-picker/picker";
+import GlobalContext from "../GlobalContext";
 
 const NemesisSelectionScreen = () => {
 	const openaikey = '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';
 	const [imageURL, setImageURL] = useState("");
   	const [isLoading, setIsLoading] = useState(false);
+	const { userEmail } = useContext(GlobalContext);
+
 	const [selectedNemesis, setSelectedNemesis] = useState(""); // To store the selected nemesis type
 	const [selectedDifficulty, setSelectedDifficulty] = useState(""); // To store the selected difficulty level
 
-	const nemesisOptions = ["Vampire", "Zombie", "Ghost", "Werewolf"]; // List of common monsters/scary things
+	const nemesisOptions = [
+		"Vampire",
+		"Zombie",
+		"Ghost",
+		"Werewolf",
+		"Clown",
+		"Your Boss",
+	]; // List of common monsters/scary things
 	const difficultyOptions = ["Easy", "Medium", "Hard"]; // Difficulty level options
 	const generateImage = async () => {
 		if (!selectedNemesis) return alert("Select nemesis!");
@@ -42,7 +52,9 @@ const NemesisSelectionScreen = () => {
 
 	return (
 		<View style={styles.container}>
-			<Title style={styles.title}>Welcome to Nemesis Selection Screen!</Title>
+			<Title style={styles.username}>Hello, {userEmail}</Title>
+			<View style={styles.separator} />
+			<Title style={styles.title}>Start a Run</Title>
 			<View style={styles.dropdownContainer}>
 				<View style={styles.separator} />
 				<Text style={styles.label}>Choose Your Nemesis</Text>
@@ -80,6 +92,11 @@ const NemesisSelectionScreen = () => {
 };
 
 const styles = StyleSheet.create({
+	username: {
+		fontSize: 18,
+		fontWeight: "bold",
+		textAlign: "left",
+	},
 	container: {
 		flex: 1,
 		justifyContent: "center",
