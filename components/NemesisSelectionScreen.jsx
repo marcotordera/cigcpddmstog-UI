@@ -3,12 +3,12 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button, Dropdown, SegmentedButtons, Title } from "react-native-paper";
-import supabase from lib;
+import { supabase } from "../lib/supabase";
 import { Picker } from "@react-native-picker/picker";
 import GlobalContext from "../GlobalContext";
 
 const NemesisSelectionScreen = () => {
-	const openaikey = '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';
+	
 	const [imageURL, setImageURL] = useState("");
   	const [isLoading, setIsLoading] = useState(false);
 	const { userEmail } = useContext(GlobalContext);
@@ -40,6 +40,7 @@ const NemesisSelectionScreen = () => {
 		  setIsLoading(false);
 		  alert.log(error.message);
 		}
+		
 	};
 	const handleNemesisChange = (itemValue) => {
 		setSelectedNemesis(itemValue);
