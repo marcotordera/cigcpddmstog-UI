@@ -62,7 +62,7 @@ export const nemesisList = [
 ];
 
 export const difficultyList = [
-	{ id: 1, title: "Easy", offsetSeconds: 60 * 0.25, speed: 1 },
-	{ id: 2, title: "Medium", offsetSeconds: 60 * 0.5, speed: 2 },
-	{ id: 3, title: "Hard", offsetSeconds: 60 * 0.25, speed: 3 },
+	{ id: 1, title: "Easy", offsetSeconds: 60 * 0.25, speed: 100 },
+	{ id: 2, title: "Medium", offsetSeconds: 60 * 0.25, speed: 125 },
+	{ id: 3, title: "Hard", offsetSeconds: 60 * 0.25, speed: 150 },
 ];

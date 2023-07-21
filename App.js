@@ -13,7 +13,7 @@ LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createStackNavigator();
 
-const initialRouteName = "Login";
+const initialRouteName = "NemesisSelectionScreen";
 
 export default function App() {
 	return (

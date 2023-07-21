@@ -31,20 +31,22 @@ export const GlobalContextProvider = ({ children }) => {
 	const [userLocation, setUserLocation] = useState({
 		latitude: 37.78825,
 		longitude: -122.4324,
-		latitudeDelta: 0.0922,
-		longitudeDelta: 0.0421,
+		latitudeDelta: 0.0522,
+		longitudeDelta: 0.0221,
 	});
 
 	const [nemesisLocation, setNemesisLocation] = useState({
-		latitude: 37.78825,
-		latitudeDelta: 0.0922,
-		longitude: -122.4324,
-		longitudeDelta: 0.0421,
+		coords: {
+			latitude: 37.78825,
+			longitude: -122.4324,
+			latitudeDelta: 0.0522,
+			longitudeDelta: 0.0221,
+		},
 	});
 
 	/////////////////////////////////////////////////////
 
-	const [testResponse, setTestResponse] = useState([]);
+	const [isCaught, setIsCaught] = useState(false);
 
 	const store = {
 		userEmail,
@@ -59,8 +61,8 @@ export const GlobalContextProvider = ({ children }) => {
 		setTestObj,
 		testObjArray,
 		setTestObjArray,
-		testResponse,
-		setTestResponse,
+		isCaught,
+		setIsCaught,
 		userLocation,
 		setUserLocation,
 		userLocationHistory,
@@ -87,8 +89,8 @@ export const GlobalContextProvider = ({ children }) => {
 		setTestObj,
 		testObjArray,
 		setTestObjArray,
-		testResponse,
-		setTestResponse,
+		isCaught,
+		setIsCaught,
 		userLocation,
 		setUserLocation,
 		userLocationHistory,
