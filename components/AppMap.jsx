@@ -30,8 +30,8 @@ export default function AppMap() {
       <MapView style={styles.map}
       showsUserLocation={true}
       initialRegion={{
-        latitude: contextValue.latitude,
-        longitude: contextValue.longitude,
+        latitude: contextValue.userLocation.latitude,
+        longitude: contextValue.userLocation.longitude,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}>
