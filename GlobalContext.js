@@ -29,7 +29,12 @@ export const GlobalContextProvider = ({ children }) => {
     longitudeDelta: 0.0421,
   });
   const [userLocationHistory, setUserLocationHistory] = useState([]);
-  const [nemesisLocation, setNemesisLocation] = useState();
+  const [nemesisLocation, setNemesisLocation] = useState({
+    latitude: 37.78825,
+    latitudeDelta: 0.0922,
+    longitude: -122.4324,
+    longitudeDelta: 0.0421,
+  });
   const [targetDestination, setTargetDestination] = useState();
 
   /////////////////////////////////////////////////////

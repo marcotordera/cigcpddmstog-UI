@@ -37,14 +37,29 @@ export default function AppMap() {
     setInterval(nemesisStep, 3000);
   }
 
-  const nemesisStep = () =>{
-    console.log("nemesis is getting closer")
-    nemesisPosition++;
-    if(nemesisPosition === localUserLocationHistory.length)
-    {
-      console.log("CAUGHT")
-    }
 
+  let localNemesisLocation = {
+    latitude: 37.78825,
+    latitudeDelta: 0.0922,    longitude: -122.4324,
+  };
+  const nemesisStep = () =>{
+    if(nemesisPosition < localUserLocationHistory.length)
+    {
+      console.log("nemesis is getting closer")
+      nemesisPosition++;
+  
+      localNemesisLocation=localUserLocationHistory[nemesisPosition]
+      // setNemesisLocation(localUserLocationHistory[nemesisPosition])
+  
+      // console.log(localUserLocationHistory[nemesisPosition]);
+      console.log(nemesisLocation.latitude);
+      console.log(nemesisLocation.longitude);
+
+      if(nemesisPosition === localUserLocationHistory.length)
+      {
+        console.log("CAUGHT")
+      }
+    }
   }
   const updateLocations = async() =>{
     let location = await Location.getCurrentPositionAsync({});
@@ -64,7 +79,7 @@ export default function AppMap() {
   useEffect(() => {
 		const PolInit = async () => {
 			try {
-        setInterval(updateLocations, 3000);
+        setInterval(updateLocations, 1000);
         setTimeout(startNemesis, 10000);
 
 				console.log("///poll init success///");
@@ -93,7 +108,13 @@ export default function AppMap() {
 				// }}
 				region={userLocation}
 				onRegionChangeComplete={(region) => setUserLocation(region)}
-			></MapView>
+			>
+        <Marker coordinate={{
+          latitude: localNemesisLocation.latitude, // Example latitude
+          longitude: localNemesisLocation.longitude, // Example longitude
+        }} title="Nemesis!" description="Nemesis!" />
+
+      </MapView>
 		</View>
 	);
 }
