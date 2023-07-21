@@ -10,23 +10,26 @@ import AppMap from "./components/AppMap";
 
 const Stack = createStackNavigator();
 
-const initialRouteName = "NemesisSelection";
+const initialRouteName = "Login";
 
 export default function App() {
-  return (
-    <PaperProvider>
-      <GlobalContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="Login"
-            screenOptions={{ headerShown: false }}
-          >
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Map" component={AppMap} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </GlobalContextProvider>
-    </PaperProvider>
-  );
+	return (
+		<PaperProvider>
+			<GlobalContextProvider>
+				<NavigationContainer>
+					<Stack.Navigator
+						initialRouteName={initialRouteName}
+						screenOptions={{ headerShown: false }}
+					>
+						<Stack.Screen name="Login" component={LoginScreen} />
+						<Stack.Screen
+							name="NemesisSelection"
+							component={NemesisSelectionScreen}
+						/>
+						<Stack.Screen name="Map" component={AppMap} />
+					</Stack.Navigator>
+				</NavigationContainer>
+			</GlobalContextProvider>
+		</PaperProvider>
+	);
 }
