@@ -3,14 +3,12 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button, Dropdown, SegmentedButtons, Title } from "react-native-paper";
-import { supabase } from "../lib/supabase";
 import { Picker } from "@react-native-picker/picker";
 import GlobalContext from "../GlobalContext";
+import { useNavigation } from "@react-navigation/native";
 
 const NemesisSelectionScreen = () => {
-	
-	const [imageURL, setImageURL] = useState("");
-  	const [isLoading, setIsLoading] = useState(false);
+	const navigation = useNavigation();
 	const { userEmail } = useContext(GlobalContext);
 
 	const [selectedNemesis, setSelectedNemesis] = useState(""); // To store the selected nemesis type
@@ -25,26 +23,9 @@ const NemesisSelectionScreen = () => {
 		"Your Boss",
 	]; // List of common monsters/scary things
 	const difficultyOptions = ["Easy", "Medium", "Hard"]; // Difficulty level options
-	const generateImage = async () => {
-		if (!selectedNemesis) return alert("Select nemesis!");
-		
-		setIsLoading(true);
-		try {
-		const { data, error } = await supabase.functions.invoke(openai, {
-				body: {query: selectedNemesis},
-		});
-			  
-		  setImageURL(data.data[0].url);
-		  setIsLoading(false);
-		} catch (error) {
-		  setIsLoading(false);
-		  alert.log(error.message);
-		}
-		
-	};
+	
 	const handleNemesisChange = (itemValue) => {
 		setSelectedNemesis(itemValue);
-		generateImage();
 	};
 
 	const handleDifficultyChange = (itemValue) => {
@@ -82,12 +63,9 @@ const NemesisSelectionScreen = () => {
 				/>
 			</View>
 			{/* Add any other content for the Nemesis Selection Screen */}
-			<Button mode="contained" onPress={() => console.log("Submit")}>
+			<Button mode="contained" onPress={() => navigation.navigate('DestinationPicker', {prompt: selectedNemesis, difficulty: selectedDifficulty})}>
 				Submit
 			</Button>
-			<View>
-				{imageURL && <img width={500} src={imageURL} alt="" />}
-			</View>
 		</View>
 	);
 };

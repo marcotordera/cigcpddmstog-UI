@@ -7,6 +7,7 @@ import { Provider as PaperProvider } from "react-native-paper";
 import LoginScreen from "./components/LoginScreen";
 import NemesisSelectionScreen from "./components/NemesisSelectionScreen";
 import AppMap from "./components/AppMap";
+import DestinationPicker from "./components/DestinationPicker";
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ export default function App() {
 							component={NemesisSelectionScreen}
 						/>
 						<Stack.Screen name="Map" component={AppMap} />
+						<Stack.Screen name="DestinationPicker" component={DestinationPicker} />
 					</Stack.Navigator>
 				</NavigationContainer>
 			</GlobalContextProvider>
