@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, StyleSheet, Dimensions, Alert } from "react-native";
 import { TextInput, Button, HelperText, Title } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { supabase } from "../lib/supabase";
+import GlobalContext from "../GlobalContext";
 
 const window = Dimensions.get("window");
 const windowHeight = window.height;
@@ -12,24 +14,56 @@ const LoginScreen = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 	const [isSignUp, setIsSignUp] = useState(false); // To track if the user is in sign-up mode
+	const [loading, setLoading] = useState(false);
 
-	const handleAction = () => {
-		if (isSignUp) {
+	const { setUserEmail } = useContext(GlobalContext);
+
+	async function signUpWithEmail() {
+		setLoading(true);
+		const { error, data } = await supabase.auth.signUp({
+			email: email,
+			password: password,
+		});
+
+		setLoading(false);
+		if (error) {
+			Alert.alert(error.message);
 		} else {
-			// Perform your login logic here
-			// For simplicity, we'll just check if email and password are not empty
-			if (email === "" || password === "") {
-				setError("Please fill in all fields");
+			return data.user.email;
+		}
+	}
+
+	async function signInWithEmail() {
+		setLoading(true);
+		const { error, data } = await supabase.auth.signInWithPassword({
+			email: email,
+			password: password,
+		});
+
+		setLoading(false);
+		if (error) {
+			Alert.alert(error.message);
+		} else {
+			return data.user.email;
+		}
+	}
+
+	const handleAction = async () => {
+		let userEmail = null;
+
+		if (email === "" || password === "") {
+			setError("Please fill in all fields");
+		} else {
+			if (isSignUp) {
+				userEmail = await signUpWithEmail();
 			} else {
-				// Perform login action here (e.g., call an API, authenticate user)
-				// For this example, let's assume login is successful if the email and password are "admin"
-				if (email === "admin" && password === "admin") {
-					setError(""); // Clear any previous error messages
-					navigation.navigate("NemesisSelection"); // Redirect to HomeScreen
-				} else {
-					setError("Invalid credentials");
-				}
+				userEmail = await signInWithEmail();
 			}
+		}
+
+		if (userEmail) {
+			setUserEmail(userEmail);
+			navigation.navigate("NemesisSelection"); // Redirect to HomeScreen
 		}
 	};
 
@@ -57,7 +91,12 @@ const LoginScreen = () => {
 					autoCapitalize="none"
 				/>
 				{error ? <HelperText type="error">{error}</HelperText> : null}
-				<Button mode="contained" onPress={handleAction} style={styles.button}>
+				<Button
+					mode="contained"
+					onPress={handleAction}
+					style={styles.button}
+					disabled={loading}
+				>
 					{isSignUp ? "Sign Up" : "Log In"}
 				</Button>
 				<Button
@@ -89,7 +128,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 52, // Larger title font size
-		lineHeight: "normal",
+		lineHeight: 60,
 		fontWeight: "bold",
 		textAlign: "center",
 	},
