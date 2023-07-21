@@ -3,17 +3,37 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button, Dropdown, SegmentedButtons, Title } from "react-native-paper";
+import supabase from lib;
 import { Picker } from "@react-native-picker/picker";
 
 const NemesisSelectionScreen = () => {
+	const openaikey = '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';
+	const [imageURL, setImageURL] = useState("");
+  	const [isLoading, setIsLoading] = useState(false);
 	const [selectedNemesis, setSelectedNemesis] = useState(""); // To store the selected nemesis type
 	const [selectedDifficulty, setSelectedDifficulty] = useState(""); // To store the selected difficulty level
 
 	const nemesisOptions = ["Vampire", "Zombie", "Ghost", "Werewolf"]; // List of common monsters/scary things
 	const difficultyOptions = ["Easy", "Medium", "Hard"]; // Difficulty level options
-
+	const generateImage = async () => {
+		if (!selectedNemesis) return alert("Select nemesis!");
+		
+		setIsLoading(true);
+		try {
+		const { data, error } = await supabase.functions.invoke(openai, {
+				body: {query: selectedNemesis},
+		});
+			  
+		  setImageURL(data.data[0].url);
+		  setIsLoading(false);
+		} catch (error) {
+		  setIsLoading(false);
+		  alert.log(error.message);
+		}
+	};
 	const handleNemesisChange = (itemValue) => {
 		setSelectedNemesis(itemValue);
+		generateImage();
 	};
 
 	const handleDifficultyChange = (itemValue) => {
@@ -52,6 +72,9 @@ const NemesisSelectionScreen = () => {
 			<Button mode="contained" onPress={() => console.log("Submit")}>
 				Submit
 			</Button>
+			<View>
+				{imageURL && <img width={500} src={imageURL} alt="" />}
+			</View>
 		</View>
 	);
 };
