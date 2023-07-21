@@ -6,16 +6,41 @@ import { Button, Dropdown, SegmentedButtons, Title } from "react-native-paper";
 import { supabase } from "../lib/supabase";
 
 import GlobalContext from "../GlobalContext";
+import { useNavigation } from "@react-navigation/native";
+import { difficultyList } from "./constants";
 
 const DestinationPicker = () => {
-	const { userEmail, nemesisUrl, selectedNemesis } = useContext(GlobalContext);
-	console.log(nemesisUrl);
+	const navigation = useNavigation();
+
+	const {
+		userEmail,
+		nemesisUrl,
+		setHeadstartCount,
+		setIsRunStarted,
+		selectedDifficulty,
+	} = useContext(GlobalContext);
+
+	const handleStartRun = () => {
+		setIsRunStarted(true);
+		console.log(selectedDifficulty);
+		const headstart = difficultyList.find(
+			({ id }) => id === selectedDifficulty
+		)?.offsetSeconds;
+		console.log(headstart);
+
+		setHeadstartCount(headstart);
+		navigation.navigate("Map");
+	};
+
 	return (
 		<View style={styles.container}>
 			<Title style={styles.username}>Hello, {userEmail}</Title>
 			<View style={styles.separator} />
 			<Title style={styles.title}>Your Nemesis</Title>
 			<Image source={{ uri: nemesisUrl }} style={{ width: 400, height: 400 }} />
+			<Button mode="contained" onPress={handleStartRun}>
+				Start Run
+			</Button>
 		</View>
 	);
 };

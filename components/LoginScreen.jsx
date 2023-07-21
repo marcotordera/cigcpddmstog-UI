@@ -102,7 +102,7 @@ const LoginScreen = () => {
 				<Button
 					mode="text"
 					onPress={() => setIsSignUp(!isSignUp)}
-					style={styles.switchButton}
+					style={styles.button}
 				>
 					{isSignUp
 						? "Already have an account? Log in"

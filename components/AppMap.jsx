@@ -3,6 +3,7 @@ import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, View, Dimensions } from "react-native";
 import GlobalContext from "../GlobalContext";
 import * as Location from "expo-location";
+import NemesisContainer from "./NemesisContainer";
 
 export default function AppMap() {
 	const { userLocation, setUserLocation,nemesisLocation, setNemesisLocation } = useContext(GlobalContext);
@@ -97,15 +98,10 @@ export default function AppMap() {
 
 	return (
 		<View style={styles.container}>
+			<NemesisContainer />
 			<MapView
 				style={styles.map}
 				showsUserLocation={true}
-				// initialRegion={{
-				// 	latitude: userLocation.latitude,
-				// 	longitude: userLocation.longitude,
-				// 	latitudeDelta: 0.0922,
-				// 	longitudeDelta: 0.0421,
-				// }}
 				region={userLocation}
 				onRegionChangeComplete={(region) => setUserLocation(region)}
 			>

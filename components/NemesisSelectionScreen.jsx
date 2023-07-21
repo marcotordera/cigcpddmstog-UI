@@ -19,6 +19,7 @@ const NemesisSelectionScreen = () => {
 		selectedDifficulty,
 		setSelectedDifficulty,
 		setNemesisUrl,
+		setHeadstartCount,
 	} = useContext(GlobalContext);
 
 	const handleNemesisChange = (itemValue) => {
