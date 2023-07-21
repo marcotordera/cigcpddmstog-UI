@@ -2,9 +2,10 @@
 
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Button, Dropdown, SegmentedButtons, Title } from "react-native-paper";
+import { Button, SegmentedButtons, Title } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 import GlobalContext from "../GlobalContext";
+import { nemesisList } from "./constants";
 
 const NemesisSelectionScreen = () => {
 	const { userEmail } = useContext(GlobalContext);
@@ -12,21 +13,15 @@ const NemesisSelectionScreen = () => {
 	const [selectedNemesis, setSelectedNemesis] = useState(""); // To store the selected nemesis type
 	const [selectedDifficulty, setSelectedDifficulty] = useState(""); // To store the selected difficulty level
 
-	const nemesisOptions = [
-		"Vampire",
-		"Zombie",
-		"Ghost",
-		"Werewolf",
-		"Clown",
-		"Your Boss",
-	]; // List of common monsters/scary things
 	const difficultyOptions = ["Easy", "Medium", "Hard"]; // Difficulty level options
 
 	const handleNemesisChange = (itemValue) => {
+		console.log(itemValue);
 		setSelectedNemesis(itemValue);
 	};
 
 	const handleDifficultyChange = (itemValue) => {
+		console.log(itemValue);
 		setSelectedDifficulty(itemValue);
 	};
 
@@ -43,8 +38,12 @@ const NemesisSelectionScreen = () => {
 					style={styles.picker}
 					onValueChange={handleNemesisChange}
 				>
-					{nemesisOptions.map((nemesis) => (
-						<Picker.Item key={nemesis} label={nemesis} value={nemesis} />
+					{nemesisList.map(({ id, title, description }) => (
+						<Picker.Item
+							key={id}
+							label={title}
+							value={`${title}: ${description}`}
+						/>
 					))}
 				</Picker>
 
