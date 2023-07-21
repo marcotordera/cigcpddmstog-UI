@@ -6,23 +6,25 @@ import Root from "./components/Root";
 import { Provider as PaperProvider } from "react-native-paper";
 import LoginScreen from "./components/LoginScreen";
 import HomeScreen from "./components/NemesisSelectionScreen";
+import AppMap from "./components/AppMap";
 
 const Stack = createStackNavigator();
 
 export default function App() {
-	return (
-		<PaperProvider>
-			<GlobalContextProvider>
-				<NavigationContainer>
-					<Stack.Navigator
-						initialRouteName="Login"
-						screenOptions={{ headerShown: false }}
-					>
-						<Stack.Screen name="Login" component={LoginScreen} />
-						<Stack.Screen name="Home" component={HomeScreen} />
-					</Stack.Navigator>
-				</NavigationContainer>
-			</GlobalContextProvider>
-		</PaperProvider>
-	);
+  return (
+    <PaperProvider>
+      <GlobalContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Login"
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Map" component={AppMap} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </GlobalContextProvider>
+    </PaperProvider>
+  );
 }

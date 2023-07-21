@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import GlobalContext from "../GlobalContext";
 import { StyleSheet, Text, View } from "react-native";
 import { sampleFetch } from "../services/TestService";
-import UserMap from "./UserMap";
+import AppMap from "./AppMap";
 
 const Root = () => {
   const contextValue = useContext(GlobalContext);
@@ -28,7 +28,7 @@ const Root = () => {
       <Text>{contextValue.testObj.objprop}</Text>
       <Text>{contextValue.testObjArray[0].testObjArrayProp}</Text>
       <Text>{contextValue.testObjArray[1].testObjArrayProp}</Text> */}
-      <UserMap/>
+      <AppMap/>
     </View>
   );
 };
