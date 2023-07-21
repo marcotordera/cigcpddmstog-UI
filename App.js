@@ -7,29 +7,33 @@ import { Provider as PaperProvider } from "react-native-paper";
 import LoginScreen from "./components/LoginScreen";
 import NemesisSelectionScreen from "./components/NemesisSelectionScreen";
 import AppMap from "./components/AppMap";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createStackNavigator();
 
 const initialRouteName = "Map";
 
 export default function App() {
-  return (
-    <PaperProvider>
-      <GlobalContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName={initialRouteName}
-            screenOptions={{ headerShown: false }}
-          >
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen
-              name="NemesisSelection"
-              component={NemesisSelectionScreen}
-            />
-            <Stack.Screen name="Map" component={AppMap} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </GlobalContextProvider>
-    </PaperProvider>
-  );
+	return (
+		<PaperProvider>
+			<GlobalContextProvider>
+				<NavigationContainer>
+					<Stack.Navigator
+						initialRouteName={initialRouteName}
+						screenOptions={{ headerShown: false }}
+					>
+						<Stack.Screen name="Login" component={LoginScreen} />
+						<Stack.Screen
+							name="NemesisSelection"
+							component={NemesisSelectionScreen}
+						/>
+						<Stack.Screen name="Map" component={AppMap} />
+					</Stack.Navigator>
+				</NavigationContainer>
+			</GlobalContextProvider>
+		</PaperProvider>
+	);
 }
